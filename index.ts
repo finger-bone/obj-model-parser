@@ -1,1 +1,3 @@
-console.log("Hello via Bun!");
+import parseObj from "@/exporter";
+
+export default parseObj;
