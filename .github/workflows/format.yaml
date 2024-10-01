@@ -1,9 +1,9 @@
-name: format
+name: Format
 on: [push, pull_request]
 jobs:
   format:
-    name: format
-    runs-on: format
+    name: Format
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
       with:
