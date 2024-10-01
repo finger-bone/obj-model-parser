@@ -13,9 +13,7 @@ jobs:
         bun-version: latest
     - run: bun install
     - run: bunx dprint fmt
-    - env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      run: |
+    - run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
