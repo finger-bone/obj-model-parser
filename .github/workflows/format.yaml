@@ -1,0 +1,25 @@
+name: format
+on: [push, pull_request]
+jobs:
+  format:
+    name: format
+    runs-on: format
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+    - run: bun install
+    - run: bunx dprint fmt
+    - env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        if ! git diff --cached --quiet; then
+          git commit -m "style: format code"
+          git push
+        fi
