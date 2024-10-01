@@ -1,24 +1,24 @@
-import type { ObjDirective } from "@/obj-parser/directives/base";
 import type { Handler } from "@/handler/handler";
+import type { ObjDirective } from "@/obj-parser/directives/base";
 import { tokenize } from "@/tokenize";
 
 export interface FreeformBodyParam extends ObjDirective {
-    type: "parm";
-    uOrV: "u" | "v";
-    params: number[];
+  type: "parm";
+  uOrV: "u" | "v";
+  params: number[];
 }
 
 export function isFreeformBodyParam(directive: ObjDirective): directive is FreeformBodyParam {
-    return directive.type === "parm";
+  return directive.type === "parm";
 }
 
 export class FreeformBodyParamHandler implements Handler<FreeformBodyParam> {
-    canHandle(request: string[], lineIndex: number): boolean {
-        return tokenize(request[lineIndex])[0] === "parm";
-    }
+  canHandle(request: string[], lineIndex: number): boolean {
+    return tokenize(request[lineIndex])[0] === "parm";
+  }
 
-    handle(request: string[], lineIndex: number): [FreeformBodyParam, number] {
-        const [_, uOrV, ...params] = tokenize(request[lineIndex]);
-        return [{ type: "parm", uOrV: uOrV as "u" | "v", params: params.map(parseFloat) }, lineIndex + 1];
-    }
+  handle(request: string[], lineIndex: number): [FreeformBodyParam, number] {
+    const [_, uOrV, ...params] = tokenize(request[lineIndex]);
+    return [{ type: "parm", uOrV: uOrV as "u" | "v", params: params.map(parseFloat) }, lineIndex + 1];
+  }
 }
