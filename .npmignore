@@ -1,3 +1,9 @@
 test
 .githubs
 src
+
+!dist
+
+bun.lockb
+dprint.json
+tsconfig.json
