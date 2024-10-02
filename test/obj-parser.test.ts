@@ -14,9 +14,9 @@ test("parse simple", () => {
   console.log(parseDirectives(obj));
 });
 
-import parseObj from "@/obj-parser/packing";
 import { promises as fs } from "fs";
 import * as path from "path";
+import parseObj from "@/exporter";
 
 test("parse bird", async () => {
   const filePath = path.join(__dirname, "bird", "12213_Bird_v1_l3.obj");
