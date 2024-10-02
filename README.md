@@ -11,7 +11,7 @@ import parseObj from "obj-model-parser";
 
 const objContent = `
 v 0.0 0.0 0.0
-`
+`;
 
 const parsedObj = parseObj(objContent);
 ```

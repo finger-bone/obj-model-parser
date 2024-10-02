@@ -30,5 +30,5 @@
     "rootDir": ".",
     "declaration": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"]
 }
