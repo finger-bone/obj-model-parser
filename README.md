@@ -4,7 +4,21 @@ This is a simple parser for the Wavefront .obj file format.
 
 To use the parser, simply import `parseObj`, which is a function that takes a string, the content of the obj file, and returns the parsed object.
 
-In the following code, `d` is `import * as d from "@/obj-parser/directives/base";`, which contains certain structures that saves the corresponding data. For example, for geometric vertices, `d.GeometricVertex` is a structure that contains the x, y, and z coordinates of the vertex.
+For example,
+
+```typescript
+import parseObj from "obj-model-parser";
+
+const objContent = `
+v 0.0 0.0 0.0
+`
+
+const parsedObj = parseObj(objContent);
+```
+
+The following code will present you with its return type.
+
+In the following code, `d` is `import * as d from "obj-parser/directives/base";`, which contains certain structures that saves the corresponding data. For example, for geometric vertices, `d.GeometricVertex` is a structure that contains the x, y, and z coordinates of the vertex.
 
 The returned type is as follows,
 
