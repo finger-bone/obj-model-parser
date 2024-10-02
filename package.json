@@ -1,8 +1,12 @@
 {
   "name": "obj-model-parser",
-  "version": "1.0.1",
-  "module": "index.ts",
+  "version": "1.0.2",
+  "module": "dist/src/exporter.js",
+  "types": "dist/src/exporter.d.ts",
   "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "dprint": "^0.47.2"
