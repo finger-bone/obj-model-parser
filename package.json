@@ -1,6 +1,6 @@
 {
   "name": "obj-model-parser",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "module": "dist/src/exporter.js",
   "types": "dist/src/exporter.d.ts",
   "type": "module",
