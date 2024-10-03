@@ -1,6 +1,6 @@
 {
   "name": "obj-model-parser",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "module": "dist/src/exporter.js",
   "devDependencies": {
     "@types/bun": "latest",
@@ -17,8 +17,5 @@
     "build": "node ./esbuild.config.cjs"
   },
   "type": "module",
-  "types": "dist/src/exporter.d.ts",
-  "dependencies": {
-    "@types/node": "^22.7.4"
-  }
+  "types": "dist/src/exporter.d.ts"
 }
