@@ -17,6 +17,7 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm i
+      - run: makedir -p dist
       - run: npm run build
       - run: npm publish
         env:
