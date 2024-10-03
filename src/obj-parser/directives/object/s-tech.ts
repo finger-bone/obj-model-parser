@@ -1,8 +1,7 @@
-import { NoHandlerError } from "src/handler/no-handler";
 import type { Handler } from "src/handler/handler";
+import { NoHandlerError } from "src/handler/no-handler";
 import type { ObjDirective } from "src/obj-parser/directives/base";
 import { tokenize } from "src/tokenize";
-
 
 export interface STech extends ObjDirective {
   type: "stech";
