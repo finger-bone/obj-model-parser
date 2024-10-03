@@ -2,14 +2,6 @@
   "name": "obj-model-parser",
   "version": "1.0.8",
   "module": "dist/src/exporter.js",
-  "types": "dist/src/exporter.d.ts",
-  "type": "module",
-  "files": [
-    "dist/src"
-  ],
-  "scripts": {
-    "build": "tsc"
-  },
   "devDependencies": {
     "@types/bun": "latest",
     "dprint": "^0.47.2"
@@ -17,10 +9,15 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "dependencies": {
-    "module-alias": "^2.2.3"
-  },
   "_moduleAliases": {
     "@": "dist/src"
-  }
+  },
+  "files": [
+    "dist/src"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "type": "module",
+  "types": "dist/src/exporter.d.ts"
 }

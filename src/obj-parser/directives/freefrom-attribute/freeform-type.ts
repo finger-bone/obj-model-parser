@@ -1,6 +1,6 @@
-import type { Handler } from "@/handler/handler";
-import type { ObjDirective } from "@/obj-parser/directives/base";
-import { tokenize } from "@/tokenize";
+import type { Handler } from "src/handler/handler";
+import type { ObjDirective } from "src/obj-parser/directives/base";
+import { tokenize } from "src/tokenize";
 
 export interface FreeformType extends ObjDirective {
   type: "cstype";

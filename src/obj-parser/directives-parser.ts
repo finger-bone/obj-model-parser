@@ -1,7 +1,7 @@
-import type { Handler } from "@/handler/handler";
-import { NoHandlerError } from "@/handler/no-handler";
-import type { ObjDirective } from "@/obj-parser/directives/base";
-import * as directives from "@/obj-parser/directives/base";
+import type { Handler } from "src/handler/handler";
+import { NoHandlerError } from "src/handler/no-handler";
+import type { ObjDirective } from "src/obj-parser/directives/base";
+import * as directives from "src/obj-parser/directives/base";
 
 const handlers: Handler<ObjDirective>[] = [
   new directives.GeometricVertexHandler(),

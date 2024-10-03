@@ -1,4 +1,4 @@
-import * as d from "@/obj-parser/directives/base";
+import * as d from "src/obj-parser/directives/base";
 import parseDirectives from "./directives-parser";
 
 export function convertRelativeToAbsoluteInPlace(

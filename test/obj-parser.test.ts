@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 
-import parseDirectives from "@/obj-parser/directives-parser";
+import parseDirectives from "src/obj-parser/directives-parser";
 
 test("parse simple", () => {
   const obj = `
@@ -14,7 +14,7 @@ test("parse simple", () => {
   console.log(parseDirectives(obj));
 });
 
-import parseObj from "@/exporter";
+import parseObj from "src/exporter";
 import { promises as fs } from "fs";
 import * as path from "path";
 
