@@ -1,9 +1,10 @@
 test
+
 .github
 src
 
-!dist
-
+dist/test
 bun.lockb
 dprint.json
 tsconfig.json
+*.test.*
