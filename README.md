@@ -2,6 +2,8 @@
 
 This is a simple parser for the Wavefront .obj file format.
 
+If you like it, give me a star on [![GitHub stars](https://img.shields.io/github/stars/finger-bone/obj-model-parser.svg?style=social&label=Star&maxAge=2592000)](https://github.com/finger-bone/obj-model-parser)
+
 To use the parser, simply import `parseObj`, which is a function that takes a string, the content of the obj file, and returns the parsed object.
 
 For example,
