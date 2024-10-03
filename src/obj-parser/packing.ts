@@ -1,8 +1,8 @@
-import * as d from "src/obj-parser/directives/base";
 import parseDirectives from "./directives-parser";
+import { Bevel, CInterp, Connection, CTech, Curve, Curve2d, DInterp, Face, FreeformBmat, FreeformBodyHole, FreeformBodyParam, FreeformBodyScrv, FreeformBodySp, FreeformBodyTrim, FreeformDegree, FreeformStep, FreeformType, GeometricVertex, isBevel, isCInterp, isConnection, isCTech, isCurve, isCurve2d, isDInterp, isFace, isFreeformBmat, isFreeformBodyEnd, isFreeformBodyHole, isFreeformBodyParam, isFreeformBodyScrv, isFreeformBodySp, isFreeformBodyTrim, isFreeformDegree, isFreeformStep, isFreeformType, isGeometricVertex, isGroup, isLine, isLod, isMaterialLibraries, isMergingGroup, isObject, isParameterSpaceVertex, isPolygon, isShadowObject, isSmoothingGroup, isSTech, isSurface, isTextureVertex, isTraceObject, isUseMaterial, isVertexNormal, Line, Lod, MaterialLibraries, MergingGroup, ObjDirective, ParameterSpaceVertex, Polygon, ShadowObject, SmoothingGroup, STech, Surface, TextureVertex, TraceObject, UseMaterial, VertexNormal } from "./directives/base";
 
 export function convertRelativeToAbsoluteInPlace(
-  directives: d.ObjDirective[],
+  directives: ObjDirective[],
 ): void {
   let vertexCount = 0;
   let vertexNormalCount = 0;
@@ -11,7 +11,7 @@ export function convertRelativeToAbsoluteInPlace(
   let surfCount = 0;
   let curve2dCount = 0;
   for (const directive of directives) {
-    if (d.isLine(directive)) {
+    if (isLine(directive)) {
       directive.v = directive.v.map((index) => {
         if (index < 0) {
           return vertexCount + index;
@@ -26,7 +26,7 @@ export function convertRelativeToAbsoluteInPlace(
           return index;
         });
       }
-    } else if (d.isFace(directive)) {
+    } else if (isFace(directive)) {
       directive.v = directive.v.map((index) => {
         if (index < 0) {
           return vertexCount + index;
@@ -49,21 +49,21 @@ export function convertRelativeToAbsoluteInPlace(
           return index;
         });
       }
-    } else if (d.isCurve(directive)) {
+    } else if (isCurve(directive)) {
       directive.v = directive.v.map((index) => {
         if (index < 0) {
           return vertexCount + index;
         }
         return index;
       });
-    } else if (d.isCurve2d(directive)) {
+    } else if (isCurve2d(directive)) {
       directive.vp = directive.vp.map((index) => {
         if (index < 0) {
           return parameterSpaceVertexCount + index;
         }
         return index;
       });
-    } else if (d.isSurface(directive)) {
+    } else if (isSurface(directive)) {
       directive.v = directive.v.map((index) => {
         if (index < 0) {
           return vertexCount + index;
@@ -86,7 +86,7 @@ export function convertRelativeToAbsoluteInPlace(
           return index;
         });
       }
-    } else if (d.isConnection(directive)) {
+    } else if (isConnection(directive)) {
       directive.connections = directive.connections.map((connection) => {
         return {
           surf: connection.surf < 0 ? surfCount + connection.surf : connection.surf,
@@ -97,51 +97,51 @@ export function convertRelativeToAbsoluteInPlace(
       });
     }
 
-    if (d.isGeometricVertex(directive)) {
+    if (isGeometricVertex(directive)) {
       vertexCount++;
-    } else if (d.isVertexNormal(directive)) {
+    } else if (isVertexNormal(directive)) {
       vertexNormalCount++;
-    } else if (d.isTextureVertex(directive)) {
+    } else if (isTextureVertex(directive)) {
       textureVertexCount++;
-    } else if (d.isParameterSpaceVertex(directive)) {
+    } else if (isParameterSpaceVertex(directive)) {
       parameterSpaceVertexCount++;
-    } else if (d.isSurface(directive)) {
+    } else if (isSurface(directive)) {
       surfCount++;
-    } else if (d.isCurve2d(directive)) {
+    } else if (isCurve2d(directive)) {
       curve2dCount++;
     }
   }
 }
 
 export interface VertexData {
-  geometricVertices: d.GeometricVertex[];
-  vertexNormals: d.VertexNormal[];
-  parameterSpaceVertices: d.ParameterSpaceVertex[];
-  textureVertices: d.TextureVertex[];
+  geometricVertices: GeometricVertex[];
+  vertexNormals: VertexNormal[];
+  parameterSpaceVertices: ParameterSpaceVertex[];
+  textureVertices: TextureVertex[];
 }
 
 export function packVertexData(
-  directives: d.ObjDirective[],
+  directives: ObjDirective[],
 ): VertexData {
   return {
-    geometricVertices: directives.filter(d.isGeometricVertex),
-    vertexNormals: directives.filter(d.isVertexNormal),
-    parameterSpaceVertices: directives.filter(d.isParameterSpaceVertex),
-    textureVertices: directives.filter(d.isTextureVertex),
+    geometricVertices: directives.filter(isGeometricVertex),
+    vertexNormals: directives.filter(isVertexNormal),
+    parameterSpaceVertices: directives.filter(isParameterSpaceVertex),
+    textureVertices: directives.filter(isTextureVertex),
   };
 }
 
 export function packMaterialLibraries(
-  directives: d.ObjDirective[],
-): d.MaterialLibraries[] {
-  return directives.filter(d.isMaterialLibraries);
+  directives: ObjDirective[],
+): MaterialLibraries[] {
+  return directives.filter(isMaterialLibraries);
 }
 
 export interface Group {
   groupNames: string[] | undefined;
-  mergingGroup: d.MergingGroup | undefined;
-  smoothingGroup: d.SmoothingGroup | undefined;
-  directives: d.ObjDirective[];
+  mergingGroup: MergingGroup | undefined;
+  smoothingGroup: SmoothingGroup | undefined;
+  directives: ObjDirective[];
 }
 
 export interface ObjectModel {
@@ -150,13 +150,13 @@ export interface ObjectModel {
 }
 
 export function packDirectivesByObjectAndGroup(
-  directives: d.ObjDirective[],
+  directives: ObjDirective[],
 ): ObjectModel[] {
   directives = directives.filter((directive) => {
-    return !d.isGeometricVertex(directive) && !d.isVertexNormal(directive) && !d.isParameterSpaceVertex(directive)
-      && !d.isTextureVertex(directive);
+    return !isGeometricVertex(directive) && !isVertexNormal(directive) && !isParameterSpaceVertex(directive)
+      && !isTextureVertex(directive);
   }).filter((directive) => {
-    return !d.isMaterialLibraries(directive);
+    return !isMaterialLibraries(directive);
   });
 
   const objects: ObjectModel[] = [];
@@ -172,7 +172,7 @@ export function packDirectivesByObjectAndGroup(
   };
 
   for (const directive of directives) {
-    if (d.isGroup(directive)) {
+    if (isGroup(directive)) {
       if (currentGroup.directives.length > 0) {
         currentObject.groups.push(currentGroup);
       }
@@ -182,7 +182,7 @@ export function packDirectivesByObjectAndGroup(
         smoothingGroup: undefined,
         directives: [],
       };
-    } else if (d.isObject(directive)) {
+    } else if (isObject(directive)) {
       if (currentGroup.directives.length > 0) {
         currentObject.groups.push(currentGroup);
       }
@@ -194,9 +194,9 @@ export function packDirectivesByObjectAndGroup(
         groups: [],
       };
     } else {
-      if (d.isMergingGroup(directive)) {
+      if (isMergingGroup(directive)) {
         currentGroup.mergingGroup = directive;
-      } else if (d.isSmoothingGroup(directive)) {
+      } else if (isSmoothingGroup(directive)) {
         currentGroup.smoothingGroup = directive;
       } else {
         currentGroup.directives.push(directive);
@@ -215,49 +215,49 @@ export function packDirectivesByObjectAndGroup(
 }
 
 export interface ComponentsChunkAttributes {
-  bevel: d.Bevel | undefined;
-  cInterp: d.CInterp | undefined;
-  dInterp: d.DInterp | undefined;
-  lod: d.Lod | undefined;
-  useMtl: d.UseMaterial | undefined;
-  shadowObj: d.ShadowObject | undefined;
-  traceObj: d.TraceObject | undefined;
-  cTech: d.CTech | undefined;
-  sTech: d.STech | undefined;
+  bevel: Bevel | undefined;
+  cInterp: CInterp | undefined;
+  dInterp: DInterp | undefined;
+  lod: Lod | undefined;
+  useMtl: UseMaterial | undefined;
+  shadowObj: ShadowObject | undefined;
+  traceObj: TraceObject | undefined;
+  cTech: CTech | undefined;
+  sTech: STech | undefined;
 }
 
 export interface Freeform {
-  directive: d.Curve | d.Curve2d | d.Surface;
+  directive: Curve | Curve2d | Surface;
   body: {
-    holes: d.FreeformBodyHole[];
-    params: d.FreeformBodyParam[];
-    scrvs: d.FreeformBodyScrv[];
-    sps: d.FreeformBodySp[];
-    trims: d.FreeformBodyTrim[];
+    holes: FreeformBodyHole[];
+    params: FreeformBodyParam[];
+    scrvs: FreeformBodyScrv[];
+    sps: FreeformBodySp[];
+    trims: FreeformBodyTrim[];
   };
 }
 
 export interface FreeformChunk {
   attributes: {
-    uBmat: d.FreeformBmat | undefined;
-    vBmat: d.FreeformBmat | undefined;
-    uDegree: d.FreeformDegree | undefined;
-    vDegree: d.FreeformDegree | undefined;
-    uStep: d.FreeformStep | undefined;
-    vStep: d.FreeformStep | undefined;
-    type: d.FreeformType | undefined;
+    uBmat: FreeformBmat | undefined;
+    vBmat: FreeformBmat | undefined;
+    uDegree: FreeformDegree | undefined;
+    vDegree: FreeformDegree | undefined;
+    uStep: FreeformStep | undefined;
+    vStep: FreeformStep | undefined;
+    type: FreeformType | undefined;
   };
   freeforms: Freeform[];
 }
 
 export interface ComponentsChunk {
   attributes: ComponentsChunkAttributes;
-  polygons: (d.Polygon | d.Line | d.Face)[];
+  polygons: (Polygon | Line | Face)[];
   freeforms: FreeformChunk[];
-  freeformConnections: d.Connection[];
+  freeformConnections: Connection[];
 }
 
-export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): ComponentsChunk[] {
+export function packDirectivesInAGroup(directivesInAGroup: ObjDirective[]): ComponentsChunk[] {
   const componentsChunks: ComponentsChunk[] = [];
   let currentComponentsChunk: ComponentsChunk = {
     attributes: {
@@ -295,15 +295,15 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
     // if any of the chunk attributes change, start a new chunk after pushing the current chunk
     // if the current chunk is not empty
     if (
-      d.isBevel(directive)
-      || d.isCInterp(directive)
-      || d.isDInterp(directive)
-      || d.isLod(directive)
-      || d.isUseMaterial(directive)
-      || d.isShadowObject(directive)
-      || d.isTraceObject(directive)
-      || d.isCTech(directive)
-      || d.isSTech(directive)
+      isBevel(directive)
+      || isCInterp(directive)
+      || isDInterp(directive)
+      || isLod(directive)
+      || isUseMaterial(directive)
+      || isShadowObject(directive)
+      || isTraceObject(directive)
+      || isCTech(directive)
+      || isSTech(directive)
     ) {
       if (currentComponentsChunk.polygons.length > 0 || currentFreeformChunk.freeforms.length > 0) {
         componentsChunks.push(currentComponentsChunk);
@@ -314,23 +314,23 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
           freeforms: [],
         };
       }
-      if (d.isBevel(directive)) {
+      if (isBevel(directive)) {
         currentComponentsChunk.attributes.bevel = directive;
-      } else if (d.isCInterp(directive)) {
+      } else if (isCInterp(directive)) {
         currentComponentsChunk.attributes.cInterp = directive;
-      } else if (d.isDInterp(directive)) {
+      } else if (isDInterp(directive)) {
         currentComponentsChunk.attributes.dInterp = directive;
-      } else if (d.isLod(directive)) {
+      } else if (isLod(directive)) {
         currentComponentsChunk.attributes.lod = directive;
-      } else if (d.isUseMaterial(directive)) {
+      } else if (isUseMaterial(directive)) {
         currentComponentsChunk.attributes.useMtl = directive;
-      } else if (d.isShadowObject(directive)) {
+      } else if (isShadowObject(directive)) {
         currentComponentsChunk.attributes.shadowObj = directive;
-      } else if (d.isTraceObject(directive)) {
+      } else if (isTraceObject(directive)) {
         currentComponentsChunk.attributes.traceObj = directive;
-      } else if (d.isCTech(directive)) {
+      } else if (isCTech(directive)) {
         currentComponentsChunk.attributes.cTech = directive;
-      } else if (d.isSTech(directive)) {
+      } else if (isSTech(directive)) {
         currentComponentsChunk.attributes.sTech = directive;
       }
       ++i;
@@ -338,7 +338,7 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
     }
 
     // if it is a polygon, just push it to the current chunk
-    if (d.isPolygon(directive) || d.isLine(directive) || d.isFace(directive)) {
+    if (isPolygon(directive) || isLine(directive) || isFace(directive)) {
       currentComponentsChunk.polygons.push(directive);
       ++i;
       continue;
@@ -347,10 +347,10 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
     // if any of the freeform attributes change, start a new freeform chunk after pushing the current freeform chunk
     // if the current freeform chunk is not empty
     if (
-      d.isFreeformBmat(directive)
-      || d.isFreeformDegree(directive)
-      || d.isFreeformStep(directive)
-      || d.isFreeformType(directive)
+      isFreeformBmat(directive)
+      || isFreeformDegree(directive)
+      || isFreeformStep(directive)
+      || isFreeformType(directive)
     ) {
       if (currentFreeformChunk.freeforms.length > 0) {
         currentComponentsChunk.freeforms.push(currentFreeformChunk);
@@ -359,25 +359,25 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
           freeforms: [],
         };
       }
-      if (d.isFreeformBmat(directive)) {
+      if (isFreeformBmat(directive)) {
         if (directive.uOrV === "u") {
           currentFreeformChunk.attributes.uBmat = directive;
         } else {
           currentFreeformChunk.attributes.vBmat = directive;
         }
-      } else if (d.isFreeformDegree(directive)) {
+      } else if (isFreeformDegree(directive)) {
         if (directive.uOrV === "u") {
           currentFreeformChunk.attributes.uDegree = directive;
         } else {
           currentFreeformChunk.attributes.vDegree = directive;
         }
-      } else if (d.isFreeformStep(directive)) {
+      } else if (isFreeformStep(directive)) {
         if (directive.u) {
           currentFreeformChunk.attributes.uStep = directive;
         } else {
           currentFreeformChunk.attributes.vStep = directive;
         }
-      } else if (d.isFreeformType(directive)) {
+      } else if (isFreeformType(directive)) {
         currentFreeformChunk.attributes.type = directive;
       }
       ++i;
@@ -386,9 +386,9 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
 
     // if it is a freeform, parse its body if exists and push it to the current freeform chunk
     if (
-      d.isCurve(directive)
-      || d.isCurve2d(directive)
-      || d.isSurface(directive)
+      isCurve(directive)
+      || isCurve2d(directive)
+      || isSurface(directive)
     ) {
       const freeform: Freeform = {
         directive: directive,
@@ -400,17 +400,17 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
           trims: [],
         },
       };
-      while (i < directivesInAGroup.length && !d.isFreeformBodyEnd(directivesInAGroup[i])) {
+      while (i < directivesInAGroup.length && !isFreeformBodyEnd(directivesInAGroup[i])) {
         const nextDirective = directivesInAGroup[i];
-        if (d.isFreeformBodyHole(nextDirective)) {
+        if (isFreeformBodyHole(nextDirective)) {
           freeform.body.holes.push(nextDirective);
-        } else if (d.isFreeformBodyParam(nextDirective)) {
+        } else if (isFreeformBodyParam(nextDirective)) {
           freeform.body.params.push(nextDirective);
-        } else if (d.isFreeformBodyScrv(nextDirective)) {
+        } else if (isFreeformBodyScrv(nextDirective)) {
           freeform.body.scrvs.push(nextDirective);
-        } else if (d.isFreeformBodySp(nextDirective)) {
+        } else if (isFreeformBodySp(nextDirective)) {
           freeform.body.sps.push(nextDirective);
-        } else if (d.isFreeformBodyTrim(nextDirective)) {
+        } else if (isFreeformBodyTrim(nextDirective)) {
           freeform.body.trims.push(nextDirective);
         } else {
           break;
@@ -422,7 +422,7 @@ export function packDirectivesInAGroup(directivesInAGroup: d.ObjDirective[]): Co
     }
 
     // if it is a connection, push it to the current freeform chunk
-    if (d.isConnection(directive)) {
+    if (isConnection(directive)) {
       currentComponentsChunk.freeformConnections.push(directive);
       ++i;
       continue;
@@ -444,15 +444,15 @@ export interface PackedObject {
   name: string | undefined;
   groups: {
     groupNames: string[] | undefined;
-    mergingGroup: d.MergingGroup | undefined;
-    smoothingGroup: d.SmoothingGroup | undefined;
+    mergingGroup: MergingGroup | undefined;
+    smoothingGroup: SmoothingGroup | undefined;
     componentsChunks: ComponentsChunk[];
   }[];
 }
 
 export interface PackedObj {
   vertexData: VertexData;
-  materialLibraries: d.MaterialLibraries[];
+  materialLibraries: MaterialLibraries[];
   objects: PackedObject[];
 }
 
@@ -477,7 +477,7 @@ export function packObject(objects: ObjectModel[]): PackedObject[] {
   return packedObjects;
 }
 
-export function packDirectives(directives: d.ObjDirective[]): PackedObj {
+export function packDirectives(directives: ObjDirective[]): PackedObj {
   convertRelativeToAbsoluteInPlace(directives);
   const vertexData = packVertexData(directives);
   const materialLibraries = packMaterialLibraries(directives);
