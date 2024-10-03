@@ -14,7 +14,7 @@
     "dist/src"
   ],
   "scripts": {
-    "build": "node ./esbuild.config.js"
+    "build": "node ./esbuild.config.cjs"
   },
   "type": "module",
   "types": "dist/src/exporter.d.ts",
