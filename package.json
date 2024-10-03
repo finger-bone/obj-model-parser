@@ -1,6 +1,6 @@
 {
   "name": "obj-model-parser",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "module": "dist/src/exporter.js",
   "types": "dist/src/exporter.d.ts",
   "type": "module",
@@ -16,5 +16,8 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.3"
   }
 }
