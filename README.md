@@ -33,37 +33,39 @@ The returned type is as follows,
         textureVertices: d.TextureVertex[];
     },
     materialLibraries: d.MaterialLibraries[],
-    objects:  name: string | undefined;
-    groups: {
-        groupNames: string[] | undefined;
-        mergingGroup: d.MergingGroup | undefined;
-        smoothingGroup: d.SmoothingGroup | undefined;
-        componentsChunks: {
-            attributes: ComponentsChunkAttributes;
-            polygons: (d.Polygon | d.Line | d.Face)[];
-            freeforms: {
-                attributes: {
-                    uBmat: d.FreeformBmat | undefined;
-                    vBmat: d.FreeformBmat | undefined;
-                    uDegree: d.FreeformDegree | undefined;
-                    vDegree: d.FreeformDegree | undefined;
-                    uStep: d.FreeformStep | undefined;
-                    vStep: d.FreeformStep | undefined;
-                    type: d.FreeformType | undefined;
-                };
+    objects: {
+        name: string | undefined;
+        groups: {
+            groupNames: string[] | undefined;
+            mergingGroup: d.MergingGroup | undefined;
+            smoothingGroup: d.SmoothingGroup | undefined;
+            componentsChunks: {
+                attributes: ComponentsChunkAttributes;
+                polygons: (d.Polygon | d.Line | d.Face)[];
                 freeforms: {
-                    directive: d.Curve | d.Curve2d | d.Surface;
-                    body: {
-                        holes: d.FreeformBodyHole[];
-                        params: d.FreeformBodyParam[];
-                        scrvs: d.FreeformBodyScrv[];
-                        sps: d.FreeformBodySp[];
-                        trims: d.FreeformBodyTrim[];
-                    }
+                    attributes: {
+                        uBmat: d.FreeformBmat | undefined;
+                        vBmat: d.FreeformBmat | undefined;
+                        uDegree: d.FreeformDegree | undefined;
+                        vDegree: d.FreeformDegree | undefined;
+                        uStep: d.FreeformStep | undefined;
+                        vStep: d.FreeformStep | undefined;
+                        type: d.FreeformType | undefined;
+                    };
+                    freeforms: {
+                        directive: d.Curve | d.Curve2d | d.Surface;
+                        body: {
+                            holes: d.FreeformBodyHole[];
+                            params: d.FreeformBodyParam[];
+                            scrvs: d.FreeformBodyScrv[];
+                            sps: d.FreeformBodySp[];
+                            trims: d.FreeformBodyTrim[];
+                        }
+                    }[]
                 }[]
-            }[]
-            freeformConnections: d.Connection[];
-        };
+                freeformConnections: d.Connection[];
+            };
+        }
     }[];
 }
 ```
@@ -72,15 +74,19 @@ The structure above is not fully expanded for simplicity. It may seem kind of ov
 
 ```typescript
 {
-    objects:  name: string | undefined;
-    groups: {
-        groupNames: string[] | undefined;
-        mergingGroup: d.MergingGroup | undefined;
-        smoothingGroup: d.SmoothingGroup | undefined;
-        componentsChunks: {
-            attributes: ComponentsChunkAttributes;
-            polygons: (d.Polygon | d.Line | d.Face)[];
-        };
+    vertexData: VertexData;
+    materialLibraries: MaterialLibraries[];
+    objects: {
+        name: string | undefined;
+        groups: {
+            groupNames: string[] | undefined;
+            mergingGroup: d.MergingGroup | undefined;
+            smoothingGroup: d.SmoothingGroup | undefined;
+            componentsChunks: {
+                attributes: ComponentsChunkAttributes;
+                polygons: (d.Polygon | d.Line | d.Face)[];
+            };
+        }[];
     }[];
 }
 ```
